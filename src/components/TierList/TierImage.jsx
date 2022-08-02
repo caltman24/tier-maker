@@ -1,19 +1,24 @@
 import { useDrag } from "react-dnd";
+import { useRef } from "react";
 
 const TierImage = ({ image }) => {
+  const ref = useRef(null);
   const { url } = image;
-  const [{ isDragging }, drag] = useDrag({
+  const [{ Opacity }, drag] = useDrag({
     type: "image",
     item: { ...image },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+      Opacity: monitor.isDragging() ? 0.2 : 1,
     }),
   });
 
   return (
     <div
       className="img"
-      style={{ backgroundImage: `url(${url})`, opacity: isDragging ? 0.2 : 1 }}
+      style={{
+        backgroundImage: `url(${url})`,
+        opacity: Opacity,
+      }}
       ref={drag}
     ></div>
   );

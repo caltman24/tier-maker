@@ -6,6 +6,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 function App() {
   const images = [
@@ -78,6 +79,19 @@ function App() {
       setChoicePoolImages((prevChoicePoolImages) => {
         return prevChoicePoolImages.filter((i) => i.id !== image.id);
       });
+    } else if (image.location !== "pool" && rank === "pool") {
+      setTierList((prevTierList) => {
+        const newTierList = [...prevTierList];
+
+        const oldRank = image.location;
+        const oldTier = newTierList.find((tier) => tier.rank === oldRank);
+
+        oldTier.images = oldTier.images.filter((i) => i.id !== image.id);
+        return newTierList;
+      });
+      setChoicePoolImages((prevChoicePoolImages) => {
+        return [{ ...image, location: rank }, ...prevChoicePoolImages];
+      });
     } else {
       const newTierList = [...tierList];
 
@@ -101,8 +115,18 @@ function App() {
     moveTierDown,
   };
 
+  const isTouchDevice = () => {
+    return (
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      navigator.msMaxTouchPoints > 0
+    );
+  };
+
+  const dndBackend = isTouchDevice() ? TouchBackend : HTML5Backend;
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={dndBackend}>
       <div className="App">
         <h1 id="title">Tier list Maker</h1>
         <div className="container">

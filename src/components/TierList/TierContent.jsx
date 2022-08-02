@@ -8,7 +8,7 @@ const TierContent = ({ children, rank }) => {
   const [{ isOver }, drop] = useDrop({
     accept: "image",
     drop: (item) => {
-      dropItem(item, rank)
+      dropItem(item, rank);
     },
   });
 
