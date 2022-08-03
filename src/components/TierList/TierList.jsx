@@ -6,8 +6,8 @@ const TierList = () => {
   const { tierList } = useContext(ChoicePoolContext);
 
 
-  const TierListRows = tierList.map((tier) => {
-    return <TierRow key={tier.id} tier={tier} />;
+  const TierListRows = tierList.map((tier, i) => {
+    return <TierRow key={tier.id} tier={tier} index={i}/>;
   });
 
   return <div className="tier-list">{TierListRows}</div>;

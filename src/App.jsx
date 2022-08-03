@@ -1,14 +1,37 @@
 import "./assets/App.css";
 import TierList from "./components/TierList/TierList";
 import ChoicePool from "./components/ChoicePool";
+import ToggleSwitch from "./components/ToggleSwitch";
 import { ChoicePoolImagesProvider } from "./ChoicePoolContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 
 function App() {
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsLightMode(!isLightMode);
+  };
+
+  useEffect(() => {
+    const theme = isLightMode ? "light" : "dark";
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+      if (document.body.classList.contains("light")) {
+        document.body.classList.remove("light");
+      }
+    }
+    if (theme === "light") {
+      document.body.classList.add("light");
+      if (document.body.classList.contains("dark")) {
+        document.body.classList.remove("dark");
+      }
+    }
+  }, [isLightMode]);
+
   const images = [
     {
       id: uuidv4(),
@@ -33,6 +56,36 @@ function App() {
     {
       id: uuidv4(),
       url: "https://picsum.photos/200/300?random=5",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=6",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=7",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=8",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=9",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=10",
+      location: "pool",
+    },
+    {
+      id: uuidv4(),
+      url: "https://picsum.photos/200/300?random=11",
       location: "pool",
     },
   ];
@@ -128,7 +181,10 @@ function App() {
   return (
     <DndProvider backend={dndBackend}>
       <div className="App">
-        <h1 id="title">Tier list Maker</h1>
+        <header className="header">
+          <h1 id="title">Tier Maker</h1>
+          <ToggleSwitch isChecked={isLightMode} toggleTheme={toggleTheme} />
+        </header>
         <div className="container">
           <ChoicePoolImagesProvider value={providerValue}>
             <TierList />

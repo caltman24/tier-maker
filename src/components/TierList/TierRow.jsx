@@ -4,7 +4,7 @@ import TierImage from "./TierImage";
 import ArrowGroup from "../Arrows/ArrowGroup";
 import Arrow from "../Arrows/Arrow";
 
-const TierRow = ({ tier }) => {
+const TierRow = ({ tier, index }) => {
   const { id, color, rank, images } = tier;
 
   const tierImages = images.map((image) => {
@@ -13,7 +13,7 @@ const TierRow = ({ tier }) => {
 
   return (
     <div className="tier-row">
-      <TierRank color={color} rank={rank} />
+      <TierRank color={color} rank={rank} index={index}/>
       <TierContent rank={rank}>{tierImages}</TierContent>
       <ArrowGroup>
         <Arrow direction="up" id={id} />
